@@ -1,0 +1,99 @@
+{
+    "form_name": "Application for Driving Licence Correction/Update",
+    "department": "MOTOR VEHICLE DEPARTMENT - GOVERNMENT OF KERALA",
+    "form_number": "Form 2",
+    "act_reference": "Motor Vehicles Act, 1988 (Rules 10, 14, 17 and 18)",
+    "declaration": "I hereby declare that the particulars given above are true and correct to the best of my knowledge and belief, and that I hold a valid driving licence. I am aware that making a false statement is a punishable offence.",
+    "fields": [
+        {
+            "id": "applicant_name",
+            "label": "Full Name of Applicant",
+            "type": "text"
+        },
+        {
+            "id": "fathers_name",
+            "label": "Father's / Husband's Name",
+            "type": "text"
+        },
+        {
+            "id": "dob",
+            "label": "Date of Birth",
+            "type": "text"
+        },
+        {
+            "id": "age",
+            "label": "Age",
+            "type": "text"
+        },
+        {
+            "id": "gender",
+            "label": "Gender",
+            "type": "text"
+        },
+        {
+            "id": "blood_group",
+            "label": "Blood Group",
+            "type": "text"
+        },
+        {
+            "id": "nationality",
+            "label": "Nationality",
+            "type": "text"
+        },
+        {
+            "id": "dl_number",
+            "label": "Existing Driving Licence Number",
+            "type": "text"
+        },
+        {
+            "id": "dl_issuing_authority",
+            "label": "Issuing Authority (RTO)",
+            "type": "text"
+        },
+        {
+            "id": "dl_validity",
+            "label": "Date of Validity of DL",
+            "type": "text"
+        },
+        {
+            "id": "address_permanent",
+            "label": "Permanent Address",
+            "type": "textarea"
+        },
+        {
+            "id": "address_current",
+            "label": "Current / Communication Address",
+            "type": "textarea"
+        },
+        {
+            "id": "mobile",
+            "label": "Mobile Number",
+            "type": "text"
+        },
+        {
+            "id": "email",
+            "label": "Email Address",
+            "type": "text"
+        },
+        {
+            "id": "correction_type",
+            "label": "Nature of Correction Required",
+            "type": "textarea"
+        },
+        {
+            "id": "reason",
+            "label": "Reason for Correction",
+            "type": "textarea"
+        },
+        {
+            "id": "vehicle_class",
+            "label": "Class of Vehicle(s) Authorised",
+            "type": "text"
+        },
+        {
+            "id": "documents_enclosed",
+            "label": "Documents Enclosed",
+            "type": "textarea"
+        }
+    ]
+}

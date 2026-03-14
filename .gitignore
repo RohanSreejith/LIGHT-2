@@ -1,0 +1,31 @@
+# Datasets (Pre-indexed ChromaDB and CSVs are now included)
+!backend/app/data/
+backend/app/data/case_laws/pdfs/
+backend/app/data/fir/
+backend/app/data/*.db
+backend/app/data/*.sqlite
+backend/app/data/*.sqlite3
+backend/app/data/*.sqlite-shm
+backend/app/data/*.sqlite-wal
+
+# Files type ignores
+*.pdf
+*.zip
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+backend/.env
+backend/.venv
+backend/venv
+.pytest_cache/
+*.log
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.env
+junk/
