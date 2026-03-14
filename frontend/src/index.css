@@ -1,11 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-gov-navy: #0B132B;
-  --color-gov-navy-light: #1C2541;
-  --color-gov-gold: #C6A756;
-  --color-gov-text: #EAEAEA;
-  --color-gov-text-muted: #A9B0C3;
+  --color-primary-bg: #F8F9FB;
+  --color-surface-white: #FFFFFF;
+  --color-accent-lavender: #7C3AED;
+  --color-status-online: #10B981;
+  --color-text-slate: #1E293B;
+  --color-border-grey: #E2E8F0;
+  --color-text-muted: #64748B;
 }
 
 /* Base Styles */
@@ -13,17 +15,17 @@
   html,
   body,
   #root {
-    @apply h-screen w-screen m-0 p-0 overflow-hidden bg-gov-navy text-gov-text font-sans selection:bg-gov-gold/30;
+    @apply h-screen w-screen m-0 p-0 overflow-hidden bg-primary-bg text-text-slate font-sans selection:bg-accent-lavender/20;
   }
 }
 
 /* Base custom classes to replace the old ones safely */
 @utility glass-panel {
-  @apply bg-gov-navy-light border border-white/5 rounded-xl shadow-md;
+  @apply bg-surface-white border border-border-grey rounded-xl shadow-sm;
 }
 
 @utility neural-link-log {
-  @apply font-mono text-[11px] text-gov-text-muted;
+  @apply font-mono text-[11px] text-text-muted;
 }
 
 /* Typing Indicator Animation */
@@ -48,5 +50,5 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
+  @apply bg-border-grey rounded-full hover:bg-slate-300 transition-colors;
 }

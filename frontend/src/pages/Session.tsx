@@ -29,17 +29,17 @@ const FormattedMessage: React.FC<{
                 </div>
                 <div className="space-y-2">
                     {questions.map((q, i) => (
-                        <div key={i} className="p-3 bg-gov-gold/5 border border-gov-gold/20 rounded-lg text-gov-text text-sm leading-relaxed">
+                        <div key={i} className="p-3 bg-accent-lavender/5 border border-accent-lavender/20 rounded-lg text-text-slate text-sm leading-relaxed">
                             {q}
                         </div>
                     ))}
                 </div>
-                <p className="text-[10px] text-gov-text-muted">Please reply with the details above.</p>
+                <p className="text-[10px] text-text-muted">Please reply with the details above.</p>
             </div>
         );
     }
 
-    if (!text) return <div className="text-gov-text-muted text-sm italic">Processing...</div>;
+    if (!text) return <div className="text-text-muted text-sm italic">Processing...</div>;
 
     const renderInline = (txt: string, key: number): React.ReactNode => {
         const parts = txt.split(/(\*\*[^*]+\*\*)/g);
@@ -47,7 +47,7 @@ const FormattedMessage: React.FC<{
             <span key={key}>
                 {parts.map((p: string, pi: number) =>
                     p.startsWith('**') && p.endsWith('**')
-                        ? <strong key={pi} className="text-gov-text font-semibold">{p.slice(2, -2)}</strong>
+                        ? <strong key={pi} className="text-text-slate font-semibold">{p.slice(2, -2)}</strong>
                         : <span key={pi}>{p}</span>
                 )}
             </span>
@@ -62,8 +62,8 @@ const FormattedMessage: React.FC<{
         const flush = (): void => {
             if (items.length) {
                 elems.push(ltype === 'ol'
-                    ? <ol key={`l${elems.length} `} className="list-decimal pl-5 space-y-0.5 my-1 text-sm text-gov-text">{[...items]}</ol>
-                    : <ul key={`l${elems.length} `} className="list-disc pl-5 space-y-0.5 my-1 text-sm text-gov-text">{[...items]}</ul>);
+                    ? <ol key={`l${elems.length} `} className="list-decimal pl-5 space-y-0.5 my-1 text-sm text-text-slate">{[...items]}</ol>
+                    : <ul key={`l${elems.length} `} className="list-disc pl-5 space-y-0.5 my-1 text-sm text-text-slate">{[...items]}</ul>);
                 items.length = 0; ltype = null;
             }
         };
@@ -72,7 +72,7 @@ const FormattedMessage: React.FC<{
             const bm = line.match(/^[-*]\s+(.*)/);
             if (nm) { if (ltype !== 'ol') { flush(); ltype = 'ol'; } items.push(<li key={i}>{renderInline(nm[2], i)}</li>); }
             else if (bm) { if (ltype !== 'ul') { flush(); ltype = 'ul'; } items.push(<li key={i}>{renderInline(bm[1], i)}</li>); }
-            else { flush(); if (line.trim()) elems.push(<p key={i} className="text-sm text-gov-text leading-relaxed">{renderInline(line, i)}</p>); }
+            else { flush(); if (line.trim()) elems.push(<p key={i} className="text-sm text-text-slate leading-relaxed">{renderInline(line, i)}</p>); }
         });
         flush();
         return <div className="space-y-1">{elems}</div>;
@@ -145,18 +145,18 @@ const FormattedMessage: React.FC<{
             )}
 
             {downloadUrl && !qrCode && (
-                <div className="flex flex-row gap-2">
+                <div className="flex flex-row gap-2 mt-2">
                     <a
                         href={`http://localhost:8000${downloadUrl}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-1 inline-flex items-center gap-2 bg-gov-gold text-gov-navy px-4 py-2 rounded-lg font-bold text-xs uppercase hover:bg-yellow-400 transition-colors shadow-lg"
+                        className="inline-flex items-center gap-2 bg-accent-lavender text-white px-5 py-2.5 rounded-full font-bold text-xs uppercase hover:bg-violet-500 transition-colors shadow-sm"
                     >
                         <Download size={13} /> Download
                     </a>
                     <button
                         onClick={() => alert("Printing service initialized (Mock)")}
-                        className="mt-1 inline-flex items-center gap-2 bg-white/10 text-white border border-white/20 px-4 py-2 rounded-lg font-bold text-xs uppercase hover:bg-white/20 transition-colors"
+                        className="inline-flex items-center gap-2 bg-surface-white text-text-slate border border-border-grey px-5 py-2.5 rounded-full font-bold text-xs uppercase hover:bg-gray-50 transition-colors shadow-sm"
                     >
                         <Printer size={13} /> Print
                     </button>
@@ -165,11 +165,11 @@ const FormattedMessage: React.FC<{
 
             <button
                 onClick={() => onSpeak?.(text)}
-                className="self-start text-[10px] text-gov-gold uppercase hover:underline flex flex-row items-center gap-1 font-bold"
+                className="mt-2 self-start text-[10px] text-accent-lavender uppercase hover:underline flex flex-row items-center gap-1 font-bold"
             >
                 <Volume2 size={11} /> Audio Playback
             </button>
-        </div >
+        </div>
     );
 };
 
@@ -649,39 +649,27 @@ export const Session: React.FC = () => {
 
 
 
-    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
     return (
-
-        <div className="h-screen w-full flex flex-col bg-gov-navy font-sans select-none">
-
-
+        <div className="h-screen w-full flex flex-col bg-primary-bg font-sans select-none text-text-slate">
 
             {/* NAVBAR */}
-
-            <header className="h-16 shrink-0 border-b border-white/5 bg-gov-navy-light flex items-center justify-between px-6 z-10">
-
+            <header className="h-16 shrink-0 border-b border-border-grey bg-surface-white flex items-center justify-between px-6 z-10 shadow-sm">
                 <div className="flex items-center gap-3">
-
-                    <Shield size={20} className="text-gov-gold" />
-
-                    <h1 className="text-gov-text font-bold tracking-widest text-sm uppercase">L.I.G.H.T 3.0</h1>
-
+                    <div className="w-8 h-8 rounded-lg bg-accent-lavender/10 flex items-center justify-center">
+                        <Shield size={18} className="text-accent-lavender" />
+                    </div>
+                    <h1 className="text-text-slate font-semibold tracking-widest text-sm uppercase">L.I.G.H.T 3.0</h1>
                 </div>
 
                 <div className="flex items-center gap-6">
-
-                    <div className="flex items-center gap-2">
-
-                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-
-                        <span className="text-[10px] text-gov-text-muted uppercase tracking-widest">System Online</span>
-
+                    <div className="flex items-center gap-2 px-3 py-1 bg-status-online/10 rounded-full">
+                        <div className="w-2 h-2 rounded-full bg-status-online shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" />
+                        <span className="text-[10px] text-status-online uppercase tracking-widest font-bold">System Online</span>
                     </div>
 
                     <button
                         onClick={() => navigate('/pipeline')}
-                        className="flex items-center gap-2 text-[10px] px-4 py-1.5 border border-gov-gold/30 text-gov-gold hover:bg-gov-gold/5 rounded transition-colors uppercase tracking-widest font-bold"
+                        className="flex items-center gap-2 text-[10px] px-5 py-2 border border-accent-lavender text-accent-lavender hover:bg-accent-lavender hover:text-white rounded-full transition-all uppercase tracking-widest font-bold"
                     >
                         <Activity size={12} />
                         Live Pipeline
@@ -689,48 +677,41 @@ export const Session: React.FC = () => {
 
                     <button
                         onClick={handleEnd}
-                        className="text-[10px] px-4 py-1.5 border border-white/10 text-gov-text-muted hover:bg-white/5 rounded transition-colors uppercase tracking-widest"
+                        className="text-[10px] px-5 py-2 border border-border-grey text-text-muted hover:bg-gray-50 hover:text-text-slate rounded-full transition-colors uppercase tracking-widest font-semibold"
                     >
                         End Session
                     </button>
-
                 </div>
-
             </header>
 
-
-
             {/* 70/30 LAYOUT */}
-
-            <main className="flex-1 flex flex-col lg:flex-row h-[calc(100vh-4rem)] p-4 gap-4 bg-gov-navy overflow-hidden">
-
-
+            <main className="flex-1 flex flex-col lg:flex-row h-[calc(100vh-4rem)] p-4 sm:p-6 lg:p-8 gap-6 bg-primary-bg overflow-hidden">
 
                 {/* LEFT: 70% */}
-
                 <section className="flex-[7] flex flex-col gap-4 overflow-hidden">
+
 
 
 
                     {/* Chat Section */}
                     <div className="flex-1 flex flex-col min-h-0">
-                        <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-4 pr-2 pb-4 pt-2">
+                        <div className="flex-1 overflow-y-auto custom-scrollbar flex flex-col gap-6 pr-2 pb-4 pt-2">
                             {messages.length === 0 && (
-                                <div className="h-full flex flex-col items-center justify-center text-gov-text-muted gap-3">
-                                    <Shield size={32} className="text-gov-gold/20" />
-                                    <p className="text-xs uppercase tracking-widest opacity-50">System Standby — Submit a query to begin</p>
+                                <div className="h-full flex flex-col items-center justify-center text-text-muted gap-3">
+                                    <Shield size={32} className="text-border-grey" />
+                                    <p className="text-xs uppercase tracking-widest opacity-50 font-semibold">System Standby — Submit a query to begin</p>
                                 </div>
                             )}
 
                             {messages.map((msg, idx) => (
                                 <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`max-w-[85%] lg:max-w-[75%] p-4 rounded-2xl shadow-lg border relative group transition-all duration-300 ${msg.role === 'user'
-                                        ? 'bg-gov-navy-light/90 border-gov-gold/30 text-gov-text rounded-tr-none'
-                                        : 'bg-white/5 border-white/10 text-gov-text rounded-tl-none'
+                                    <div className={`max-w-[85%] lg:max-w-[75%] p-5 rounded-2xl relative group transition-all duration-300 ${msg.role === 'user'
+                                        ? 'bg-surface-white border border-border-grey shadow-sm text-text-slate rounded-tr-lg'
+                                        : 'bg-surface-white border border-border-grey border-l-4 border-l-accent-lavender text-text-slate shadow-sm rounded-tl-lg'
                                         }`}>
 
                                         {msg.role === 'user' ? (
-                                            <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.text}</p>
+                                            <p className="text-[15px] leading-relaxed whitespace-pre-wrap font-medium text-slate-800">{msg.text}</p>
                                         ) : (
                                             <FormattedMessage
                                                 text={msg.text}
@@ -742,7 +723,7 @@ export const Session: React.FC = () => {
                                             />
                                         )}
 
-                                        <div className={`absolute top-full mt-1 text-[8px] uppercase tracking-tighter text-gov-text-muted opacity-0 group-hover:opacity-100 transition-opacity ${msg.role === 'user' ? 'right-2' : 'left-2'}`}>
+                                        <div className={`absolute top-full mt-2 text-[9px] uppercase tracking-tighter text-text-muted opacity-0 group-hover:opacity-100 transition-opacity font-bold ${msg.role === 'user' ? 'right-2' : 'left-2'}`}>
                                             {msg.role === 'user' ? 'Citizen' : 'L.I.G.H.T Agent'}
                                         </div>
                                     </div>
@@ -751,13 +732,13 @@ export const Session: React.FC = () => {
 
                             {loading && (
                                 <div className="flex justify-start">
-                                    <div className="bg-white/5 border border-white/10 p-4 rounded-2xl rounded-tl-none flex flex-col gap-2">
+                                    <div className="bg-surface-white border border-border-grey border-l-4 border-l-accent-lavender p-4 rounded-xl shadow-sm flex flex-col gap-2">
                                         <div className="flex items-center gap-2 mb-1">
-                                            <div className="w-1.5 h-1.5 bg-gov-gold rounded-full animate-typing-dot" style={{ animationDelay: '0s' }} />
-                                            <div className="w-1.5 h-1.5 bg-gov-gold rounded-full animate-typing-dot" style={{ animationDelay: '0.2s' }} />
-                                            <div className="w-1.5 h-1.5 bg-gov-gold rounded-full animate-typing-dot" style={{ animationDelay: '0.4s' }} />
+                                            <div className="w-1.5 h-1.5 bg-accent-lavender rounded-full animate-typing-dot" style={{ animationDelay: '0s' }} />
+                                            <div className="w-1.5 h-1.5 bg-accent-lavender rounded-full animate-typing-dot" style={{ animationDelay: '0.2s' }} />
+                                            <div className="w-1.5 h-1.5 bg-accent-lavender rounded-full animate-typing-dot" style={{ animationDelay: '0.4s' }} />
                                         </div>
-                                        <span className="text-[9px] uppercase tracking-widest text-gov-gold font-bold">L.I.G.H.T is processing</span>
+                                        <span className="text-[9px] uppercase tracking-widest text-text-muted font-bold">L.I.G.H.T is processing</span>
                                     </div>
                                 </div>
                             )}
@@ -766,62 +747,67 @@ export const Session: React.FC = () => {
                         </div>
 
                         {/* Bottom Input Area */}
-                        <div className="glass-panel p-4 flex flex-col gap-3 shrink-0 rounded-2xl border-white/10 shadow-2xl mt-auto">
+                        <div className="bg-surface-white p-2 sm:p-4 flex flex-col gap-2 shrink-0 rounded-[2rem] border border-border-grey shadow-[inset_0_2px_4px_rgba(0,0,0,0.02),0_4px_12px_rgba(0,0,0,0.03)] mt-2 mx-1 relative z-20">
                             {/* Optional Attachment Readout */}
                             {attachment && (
-                                <div className="flex items-center justify-between bg-gov-navy-light border border-gov-gold/30 rounded-lg p-2 mb-1">
-                                    <div className="flex items-center gap-2 overflow-hidden text-gov-gold">
+                                <div className="flex items-center justify-between bg-primary-bg border border-border-grey rounded-xl p-2 mb-1 mr-14 ml-4">
+                                    <div className="flex items-center gap-2 overflow-hidden text-accent-lavender">
                                         <Paperclip size={14} className="shrink-0" />
                                         <span className="text-xs truncate font-medium">{attachment.name}</span>
                                     </div>
-                                    <button onClick={() => setAttachment(null)} className="text-gov-text-muted hover:text-red-400 p-1">
+                                    <button onClick={() => setAttachment(null)} className="text-text-muted hover:text-red-400 p-1">
                                         <X size={14} />
                                     </button>
                                 </div>
                             )}
 
-                            <div className="flex gap-3 items-end">
-                                <div className="flex-1 relative">
-                                    <textarea
-                                        value={input}
-                                        onChange={(e) => setInput(e.target.value)}
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter' && !e.shiftKey) {
-                                                e.preventDefault();
-                                                handleSend();
-                                            }
-                                        }}
-                                        placeholder="Describe your legal or civic situation..."
-                                        className="w-full h-14 bg-gov-navy border border-white/10 text-gov-text rounded-xl pl-4 pr-12 py-3 text-sm focus:outline-none focus:border-gov-gold/50 transition-all resize-none placeholder-gray-600 focus:ring-1 focus:ring-gov-gold/20"
-                                    />
-                                    <button
-                                        onClick={() => fileInputRef.current?.click()}
-                                        className={`absolute right-3 bottom-3 p-1.5 rounded-lg transition-colors ${attachment ? 'text-gov-gold' : 'text-gov-text-muted hover:text-gov-text'}`}
-                                        title="Attach Document"
-                                    >
-                                        <Paperclip size={16} />
-                                    </button>
-                                    <input type="file" ref={fileInputRef} className="hidden" accept="image/*,.pdf" onChange={(e) => setAttachment(e.target.files?.[0] || null)} />
-                                </div>
-
-                                <div className="flex gap-2 shrink-0">
+                            <div className="flex gap-2 items-center relative py-1 px-2">
+                                <button
+                                    onClick={() => fileInputRef.current?.click()}
+                                    className={`p-3 rounded-full transition-colors flex shrink-0 items-center justify-center bg-primary-bg ${attachment ? 'text-accent-lavender border border-accent-lavender/30' : 'text-text-muted hover:bg-slate-100 hover:text-text-slate border border-transparent'}`}
+                                    title="Attach Document"
+                                >
+                                    <Paperclip size={18} strokeWidth={1.5} />
+                                </button>
+                                
+                                <textarea
+                                    value={input}
+                                    onChange={(e) => setInput(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' && !e.shiftKey) {
+                                            e.preventDefault();
+                                            handleSend();
+                                        }
+                                    }}
+                                    placeholder="Describe your legal or civic situation..."
+                                    className="w-full bg-transparent text-text-slate px-2 py-3 text-[15px] focus:outline-none resize-none placeholder-slate-400 leading-relaxed max-h-[120px]"
+                                    rows={1}
+                                    style={{
+                                        minHeight: '48px',
+                                        height: input.split('\n').length > 1 ? 'auto' : '48px'
+                                    }}
+                                />
+                                
+                                <div className="flex items-center gap-1 shrink-0">
                                     <button
                                         onClick={toggleRecording}
-                                        className={`p-3.5 rounded-xl transition-all border ${recording ? 'bg-red-500/10 border-red-500/50 text-red-500 animate-pulse' : 'bg-gov-navy border-white/10 text-gov-text-muted hover:text-gov-text hover:border-white/20'}`}
-                                        title="Voice Dictation"
+                                        className={`p-3 rounded-full transition-all flex items-center justify-center ${recording ? 'bg-red-50 text-red-500 border border-red-200 animate-pulse' : 'bg-primary-bg text-text-muted hover:bg-slate-100 hover:text-text-slate'}`}
+                                        title={recording ? "Stop Recording" : "Dictate"}
                                     >
-                                        <Mic size={18} />
+                                        <Mic size={18} strokeWidth={1.5} />
                                     </button>
-
+                                    
                                     <button
                                         onClick={() => handleSend()}
-                                        disabled={loading || (!input.trim() && !attachment)}
-                                        className="p-3.5 bg-gov-gold text-gov-navy rounded-xl hover:bg-yellow-500 disabled:opacity-30 disabled:grayscale transition-all flex items-center justify-center font-bold shadow-lg shadow-gov-gold/10"
+                                        disabled={(!input.trim() && !attachment) || loading}
+                                        className="p-3 bg-accent-lavender text-white rounded-full hover:bg-violet-600 transition-all disabled:opacity-50 disabled:bg-border-grey disabled:text-text-muted flex items-center justify-center ml-1 shadow-sm"
+                                        title="Send"
                                     >
-                                        <Send size={18} />
+                                        <Send size={18} strokeWidth={1.5} className="mr-[-2px]" />
                                     </button>
                                 </div>
                             </div>
+                            <input type="file" ref={fileInputRef} className="hidden" accept="image/*,.pdf" onChange={(e) => setAttachment(e.target.files?.[0] || null)} />
                         </div>
                     </div>
 
@@ -831,39 +817,39 @@ export const Session: React.FC = () => {
 
                 {/* RIGHT: 30% */}
 
-                <section className="flex-[3] flex flex-col gap-3 min-w-[280px] max-w-[400px]">
+                <section className="flex-[3] flex flex-col gap-4 min-w-[280px] max-w-[400px]">
 
 
 
                     {/* Metrics — compact horizontal layout */}
 
-                    <div className="glass-panel p-3 shrink-0 rounded-xl">
+                    <div className="glass-panel p-4 shrink-0 rounded-2xl flex flex-col gap-3">
 
-                        <h3 className="text-[9px] font-bold text-gov-text-muted uppercase tracking-widest mb-2 border-b border-white/5 pb-1.5">Intelligence Metrics</h3>
+                        <h3 className="text-[10px] font-bold text-text-muted uppercase tracking-widest border-b border-border-grey pb-2">Intelligence Metrics</h3>
 
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-4">
 
                             {/* Confidence ring — smaller */}
 
                             <div className="flex flex-col items-center shrink-0">
 
-                                <div className="relative w-12 h-12 flex items-center justify-center">
+                                <div className="relative w-14 h-14 flex items-center justify-center">
 
                                     <svg className="w-full h-full transform -rotate-90" viewBox="0 0 48 48">
 
-                                        <circle cx="24" cy="24" r="20" className="stroke-white/10 fill-none" strokeWidth="5" />
+                                        <circle cx="24" cy="24" r="21" className="stroke-slate-100 fill-none" strokeWidth="3" />
 
                                         <circle
 
-                                            cx="24" cy="24" r="20"
+                                            cx="24" cy="24" r="21"
 
-                                            className="stroke-gov-gold fill-none transition-all duration-1000"
+                                            className="stroke-accent-lavender fill-none transition-all duration-1000"
 
-                                            strokeWidth="5"
+                                            strokeWidth="3"
 
-                                            strokeDasharray="125.66"
+                                            strokeDasharray="131.95"
 
-                                            strokeDashoffset={125.66 - (125.66 * confidenceScore) / 100}
+                                            strokeDashoffset={131.95 - (131.95 * confidenceScore) / 100}
 
                                             strokeLinecap="round"
 
@@ -871,11 +857,11 @@ export const Session: React.FC = () => {
 
                                     </svg>
 
-                                    <span className="absolute text-[11px] font-bold text-gov-text">{confidenceScore}%</span>
+                                    <span className="absolute text-xs font-bold text-text-slate">{confidenceScore}%</span>
 
                                 </div>
 
-                                <span className="text-[8px] uppercase tracking-widest text-gov-text-muted mt-1">Conf.</span>
+                                <span className="text-[9px] uppercase tracking-widest text-text-muted mt-2 font-semibold">Conf.</span>
 
                             </div>
 
@@ -883,27 +869,27 @@ export const Session: React.FC = () => {
 
                             {/* Risk + Latency stacked */}
 
-                            <div className="flex-1 flex flex-col gap-1.5">
+                            <div className="flex-1 flex flex-col gap-2">
 
-                                <div className="bg-gov-navy rounded border border-white/5 px-2 py-1.5 flex items-center gap-2">
+                                <div className="bg-primary-bg rounded-lg border border-border-grey px-3 py-2 flex items-center gap-2">
 
                                     {riskLevel.toLowerCase().includes('high')
 
-                                        ? <AlertTriangle size={11} className="text-red-500" />
+                                        ? <AlertTriangle size={12} className="text-red-500" />
 
-                                        : <CheckCircle2 size={11} className="text-green-500" />}
+                                        : <CheckCircle2 size={12} className="text-status-online" />}
 
-                                    <span className="text-[9px] text-gov-text-muted">Risk</span>
+                                    <span className="text-[10px] text-text-muted font-medium">Risk</span>
 
-                                    <span className={`text-[10px] font-bold ml-auto ${riskLevel.toLowerCase().includes('high') ? 'text-red-400' : 'text-green-400'}`}>{riskLevel}</span>
+                                    <span className={`text-[10px] font-bold ml-auto ${riskLevel.toLowerCase().includes('high') ? 'text-red-500' : 'text-status-online'}`}>{riskLevel}</span>
 
                                 </div>
 
-                                <div className="bg-gov-navy rounded border border-white/5 px-2 py-1.5 flex items-center gap-2">
+                                <div className="bg-primary-bg rounded-lg border border-border-grey px-3 py-2 flex items-center gap-2">
 
-                                    <span className="text-[9px] text-gov-text-muted">Latency</span>
+                                    <span className="text-[10px] text-text-muted font-medium">Latency</span>
 
-                                    <span className="text-[10px] font-bold text-gov-text ml-auto">~40ms</span>
+                                    <span className="text-[10px] font-bold text-text-slate ml-auto">~40ms</span>
 
                                 </div>
 
@@ -917,11 +903,11 @@ export const Session: React.FC = () => {
 
                     {/* Active Citation — compact */}
 
-                    <div className="glass-panel px-3 py-2 shrink-0 rounded-xl">
+                    <div className="glass-panel px-4 py-3 shrink-0 rounded-2xl">
 
-                        <h3 className="text-[9px] font-bold text-gov-text-muted uppercase tracking-widest mb-1">Active Citation</h3>
+                        <h3 className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Active Citation</h3>
 
-                        <p className="text-[11px] font-medium text-gov-gold leading-snug line-clamp-2">{topCitation}</p>
+                        <p className="text-xs font-medium text-accent-lavender leading-relaxed line-clamp-2">{topCitation}</p>
 
                     </div>
 
@@ -929,7 +915,7 @@ export const Session: React.FC = () => {
 
                     {/* NeuralLink — gets all remaining space, min 200px */}
 
-                    <div className="glass-panel flex-1 min-h-[220px] rounded-xl overflow-hidden">
+                    <div className="glass-panel flex-1 min-h-[220px] rounded-2xl overflow-hidden flex flex-col">
 
                         <NeuralLink logs={logs} />
 

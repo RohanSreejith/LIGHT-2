@@ -7,15 +7,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        // L.I.G.H.T Enterprise Theme Colors
-        'gov-navy': '#0B132B',
-        'gov-navy-light': '#1C2541',
-        'gov-gold': '#C6A756',
-        'gov-text': '#EAEAEA',
-        'gov-text-muted': '#A9B0C3',
+        // Professional Pastels Theme Colors
+        'primary-bg': '#F8F9FB',      // Soft Off-White
+        'surface-white': '#FFFFFF',   // Pure White
+        'accent-lavender': '#7C3AED', // Action/Neural Link
+        'status-online': '#10B981',   // Sage Green
+        'text-slate': '#1E293B',      // Deep Slate text
+        'border-grey': '#E2E8F0',     // Light Steel Grey
+        'text-muted': '#64748B',      // Slate 500 for secondary text
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
       },
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',

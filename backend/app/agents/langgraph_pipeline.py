@@ -283,26 +283,34 @@ class CivicAgentPipeline:
             lang_label = "MALAYALAM" if is_malayalam else "ENGLISH"
 
             prompt = f"""
-            Role: Govt Assistance Officer Kiosk.
+            Role: Govt Assistance Officer Kiosk (L.I.G.H.T)
             USER INPUT: "{state['user_input']}"
             LANGUAGE: {lang_label}
             HISTORY: {history_str[-1000:]}
             SERVICE MAPPED: {state.get('service_intent', 'General Service')}
             
-            Generate a helpful, friendly, and concise response (advice) in {lang_label}.
-            MANDATORY: You MUST also include ONE specific follow-up question in {lang_label} to help them further.
+            CRITICAL GUARDRAIL: If the user's input is clearly NOT related to Indian civic services, government documents (Aadhaar/DL etc.), or legal assistance (like asking for recipes, trivia, creative writing, or coding), you MUST politely refuse to answer. Explain that you are a Civic/Legal assistant and cannot help with the specific topic they asked about (e.g. if they asked about bikes, say you cannot help with bikes). Do NOT issue a generic "I am not a cooking assistant" response unless they actually asked about cooking!
+            
+            If it is a valid civic/legal query:
+            1. Generate a helpful, friendly, and concise response (advice) in {lang_label}.
+            2. MANDATORY: You MUST also include ONE specific follow-up question in {lang_label} to help them further.
             
             Return ONLY valid JSON in this exact format:
-            {{"advice": "your response here", "question": "follow-up question here"}}
+            {{"status": "answer" | "refused", "advice": "your response or polite refusal here", "question": "follow-up question here (or null if refusing)"}}
             """
             
-            response_text = llm.get_completion(prompt, system_prompt=f"Helpful human assistant. Always respond in {lang_label}.")
+            system_prompt = f"You are L.I.G.H.T, a Govt Assistance Officer Kiosk for Indian citizens. You MUST strictly refuse queries NOT related to government services, legal issues, or civic duties. Always respond in {lang_label}."
+            
+            response_text = llm.get_completion(prompt, system_prompt=system_prompt, json_mode=True)
             
             from ..utils.json_cleaner import parse_json_safely
             parsed = parse_json_safely(response_text)
+            
+            synthesizer_status = "answer"
             if isinstance(parsed, dict):
                 advice = parsed.get("advice", response_text)
                 question = parsed.get("question")
+                synthesizer_status = parsed.get("status", "answer")
             else:
                 advice = response_text
                 question = None
@@ -311,20 +319,28 @@ class CivicAgentPipeline:
             advice = "I'm having trouble connecting to my knowledge base right now. Please try again."
             question = None
 
-        state["status"] = "SUCCESS" if not state["missing_docs"] else "NEEDS_INFO"
-        state["structured_output"] = {
-            "status": state["status"],
-            "service": state.get("service_intent", "Unknown"),
-            "missing_docs": state.get("missing_docs", []),
-            "advice": advice,
-            "questions": [question] if question else []
-        }
+        if synthesizer_status == "refused" or (advice and "not equipped" in advice.lower()) or (advice and "cannot help" in advice.lower()):
+            state["status"] = "REFUSED"
+            state["refusal_reason"] = advice
+            state["structured_output"] = {
+                "status": "REFUSED",
+                "reason": advice
+            }
+        else:
+            state["status"] = "SUCCESS" if not state["missing_docs"] else "NEEDS_INFO"
+            state["structured_output"] = {
+                "status": state["status"],
+                "service": state.get("service_intent", "Unknown"),
+                "missing_docs": state.get("missing_docs", []),
+                "advice": advice,
+                "questions": [question] if question else []
+            }
         
         state["agent_logs"].append({
             "agent": "Legal",
             "msg": json.dumps({
                 "advice": advice,
-                "reasoning": "Synthesized general citizen guidance."
+                "reasoning": "Synthesized general citizen guidance or refusal based on relevance."
             })
         })
         
@@ -608,6 +624,7 @@ class CivicAgentPipeline:
                 f"You are L.I.G.H.T, an expert Indian civic and legal AI assistant. "
                 f"You MUST ALWAYS speak PRECISELY IN {lang_label}. Never use English if {lang_label} is MALAYALAM. "
                 "Your role is to give helpful, accurate, actionable civic and legal guidance to Indian citizens. "
+                "You MUST firmly but politely refuse queries NOT related to government services, legal issues, or civic duties. "
                 "Always reference relevant laws (IPC, BNS, Acts). "
                 "MANDATORY: You MUST always ask ONE follow-up question to help the user further."
             )
@@ -621,11 +638,12 @@ LANGUAGE: {lang_label}
 {context_section}
 
 INSTRUCTIONS:
-1. Provide a complete, helpful legal/civic response in {lang_label}.
-2. MANDATORY: Explicitly mention applicable Indian laws or IPC/BNS sections.
-3. MANDATORY: Ask ONE specific follow-up question in {lang_label}.
-4. Return ONLY valid JSON in this exact format:
-{{"status": "answer" | "needs_info" | "refused", "response": "your full answer in {lang_label} here", "question": "follow-up in {lang_label} here"}}
+1. CRITICAL GUARDRAIL: If the user's query is completely unrelated to Indian civic services, legal matters, or government assistance (e.g., asking for recipes, jokes, general knowledge), set "status" to "refused" and politely explain that you are a Civic/Legal assistant and cannot help with that specific topic. Do NOT just say "I am not a cooking assistant" unless they asked about cooking.
+2. If the query IS valid/legal, provide a complete, helpful legal/civic response in {lang_label}.
+3. MANDATORY FOR VALID QUERIES: Explicitly mention applicable Indian laws or IPC/BNS sections.
+4. MANDATORY FOR VALID QUERIES: Ask ONE specific follow-up question in {lang_label}.
+5. Return ONLY valid JSON in this exact format:
+{{"status": "answer" | "needs_info" | "refused", "response": "your full answer or polite refusal in {lang_label} here", "question": "follow-up in {lang_label} here (or null)"}}
 """
             
             response_text = llm.get_completion(prompt, system_prompt=system_prompt, json_mode=True)
