@@ -359,13 +359,19 @@ class CivicAgentPipeline:
         collected = state.get("collected_fields", {})
         
         last_question = ""
-        if len(history) >= 2 and history[-2].get("role") == "assistant":
-             last_question = history[-2].get("text", "")
-        # Note: Depending on routing, the very last message in history before input could be assistant.
-        # Let's cleanly grab the last assistant line from history.
         for m in reversed(history):
-            if isinstance(m, dict) and m.get("role") in ["assistant", "system"] and m.get("text"):
-                last_question = m["text"]
+            if not isinstance(m, dict): continue
+            if m.get("role") not in ["assistant", "system"]: continue
+            
+            # 1. Check mapped text (Frontend usually maps questions to text)
+            if m.get("text"):
+                last_question = m.get("text")
+                break
+            
+            # 2. Check raw questions list (Backup if text is empty)
+            qs = m.get("questions", [])
+            if qs and isinstance(qs, list) and len(qs) > 0:
+                last_question = qs[0]
                 break
 
         # ── 2. Ask LLM to extract ONLY NEW fields (Delta Extraction) ─────────
@@ -406,26 +412,38 @@ class CivicAgentPipeline:
                     system_prompt="You are a precise JSON extraction assistant. Return only valid JSON.",
                     json_mode=True
                 )
-                parsed = parse_json_safely(raw)
                 if isinstance(parsed, dict):
+                    import json
+                    logger.info(f"Form Agent extracted fields: {json.dumps(parsed)}")
+                    
                     for k, v in parsed.items():
                         val = str(v).strip()
-                        if not val or val.lower() in ("none", "null", "undefined"):
+                        if not val or val.lower() in ("none", "null", "undefined", "unknown"):
                             continue
+                        
                         if val.upper() == "SKIP":
-                            collected[k] = ""
-                        else:
-                            # Only overwrite if we don't have a value yet, 
-                            # or if the new value is significantly better (not empty)
+                            # Explicit skip by user — only set if not already filled
+                            if k not in collected or not collected[k]:
+                                collected[k] = ""
+                            continue
+
+                        # Robust Update: Only fill if empty, OR if this was the field we just asked for
+                        if k not in collected or not collected[k] or k == state.get("current_field"):
                             collected[k] = val
             except Exception as e:
-                logger.warning(f"Form field extraction LLM error: {e}")
+                logger.error(f"Form field extraction LLM error: {e}")
+                state["status"] = "ERROR"
+                state["structured_output"] = {
+                    "status": "ERROR", 
+                    "reason": "I encountered a temporary service limit. Please wait a moment and try again."
+                }
+                return state
 
         # Update persistent state
         state["collected_fields"] = collected
 
         # Auto-fill today's date if not provided
-        if "date" not in collected:
+        if not collected.get("date"):
             collected["date"] = datetime.date.today().strftime("%d/%m/%Y")
             state["collected_fields"]["date"] = collected["date"]
 
@@ -453,6 +471,7 @@ class CivicAgentPipeline:
         # ── 4. If there's a missing field → ask for it ─────────────────────────
         if next_field:
             state["status"] = "NEEDS_INFO"
+            state["current_field"] = next_field["id"]
             state["structured_output"] = {
                 "status": "NEEDS_INFO",
                 "form_mode": True,
