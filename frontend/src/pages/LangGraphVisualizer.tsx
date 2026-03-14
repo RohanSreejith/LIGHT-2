@@ -174,42 +174,42 @@ export const LangGraphVisualizer: React.FC = () => {
     const displayNode = hoveredNode ? getNode(hoveredNode) : activeNode ? getNode(activeNode) : null;
 
     return (
-        <div className="min-h-screen bg-gov-navy text-gov-text font-sans flex flex-col">
+        <div className="min-h-screen bg-primary-bg text-text-slate font-sans flex flex-col">
 
             {/* ── Header ── */}
-            <header className="border-b border-white/5 bg-gov-navy-light px-8 py-4 flex items-center justify-between shrink-0">
+            <header className="border-b border-border-grey bg-surface-white px-8 py-4 flex items-center justify-between shrink-0 shadow-sm">
                 <div className="flex items-center gap-6">
                     <button
                         onClick={() => navigate('/session')}
-                        className="flex items-center gap-2 text-[10px] text-gov-gold hover:underline uppercase tracking-widest font-bold"
+                        className="flex items-center gap-2 text-[10px] text-accent-lavender hover:underline uppercase tracking-widest font-bold"
                     >
                         <ChevronLeft size={14} />
                         Back to Chat
                     </button>
 
-                    <div className="h-6 w-px bg-white/10" />
+                    <div className="h-6 w-px bg-border-grey" />
 
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-gov-gold/10 border border-gov-gold/30 flex items-center justify-center">
-                            <Cpu size={16} className="text-gov-gold" />
+                        <div className="w-8 h-8 rounded-lg bg-accent-lavender/10 border border-accent-lavender/30 flex items-center justify-center shadow-sm">
+                            <Cpu size={16} className="text-accent-lavender" />
                         </div>
                         <div>
-                            <h1 className="text-sm font-bold tracking-widest uppercase text-gov-text">L.I.G.H.T · LangGraph Pipeline</h1>
-                            <p className="text-[10px] text-gov-text-muted tracking-widest">Multi-Agent Civic AI — Hackathon Demo</p>
+                            <h1 className="text-sm font-bold tracking-widest uppercase text-text-slate">L.I.G.H.T · LangGraph Pipeline</h1>
+                            <p className="text-[10px] text-text-muted tracking-widest">Multi-Agent Civic AI — Hackathon Demo</p>
                         </div>
                     </div>
                 </div>
                 <div className="flex gap-3">
                     <button
                         onClick={reset}
-                        className="flex items-center gap-2 px-4 py-2 border border-white/10 text-gov-text-muted text-xs uppercase tracking-widest rounded hover:bg-white/5 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 border border-border-grey text-text-muted text-xs uppercase tracking-widest rounded-full hover:bg-slate-50 transition-colors bg-surface-white"
                     >
                         <RotateCcw size={13} /> Reset
                     </button>
                     <button
                         onClick={runDemo}
                         disabled={running}
-                        className="flex items-center gap-2 px-5 py-2 bg-gov-gold text-gov-navy font-bold text-xs uppercase tracking-widest rounded hover:bg-yellow-500 disabled:opacity-50 transition-colors"
+                        className="flex items-center gap-2 px-5 py-2 bg-accent-lavender text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-purple-700 disabled:opacity-50 transition-colors shadow-sm"
                     >
                         <Play size={13} /> {running ? 'Running...' : 'Run Demo'}
                     </button>
@@ -220,11 +220,11 @@ export const LangGraphVisualizer: React.FC = () => {
             <div className="flex-1 flex flex-col lg:flex-row gap-0 overflow-hidden">
 
                 {/* ── Graph Panel ── */}
-                <div className="flex-1 flex flex-col items-center justify-start overflow-y-auto py-6 px-4 bg-gov-navy">
+                <div className="flex-1 flex flex-col items-center justify-start overflow-y-auto py-6 px-4 bg-primary-bg">
 
                     {/* Demo query pill */}
-                    <div className="mb-6 px-5 py-3 border border-white/10 rounded-full bg-gov-navy-light text-gov-text-muted text-xs flex items-center gap-3 max-w-xl text-center">
-                        <ChevronRight size={14} className="text-gov-gold shrink-0" />
+                    <div className="mb-6 px-5 py-3 border border-border-grey rounded-full bg-surface-white text-text-muted text-xs flex items-center gap-3 max-w-xl text-center shadow-sm">
+                        <ChevronRight size={14} className="text-accent-lavender shrink-0" />
                         <span className="italic">"{DEMO_QUERY}"</span>
                     </div>
 
@@ -242,10 +242,10 @@ export const LangGraphVisualizer: React.FC = () => {
                                 </radialGradient>
                             ))}
                             <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3.5" orient="auto">
-                                <path d="M0,0 L0,7 L8,3.5 z" fill="rgba(255,255,255,0.2)" />
+                                <path d="M0,0 L0,7 L8,3.5 z" fill="rgba(30,41,59,0.2)" />
                             </marker>
                             <marker id="arrow-active" markerWidth="8" markerHeight="8" refX="7" refY="3.5" orient="auto">
-                                <path d="M0,0 L0,7 L8,3.5 z" fill="#C6A756" />
+                                <path d="M0,0 L0,7 L8,3.5 z" fill="#7C3AED" />
                             </marker>
                         </defs>
 
@@ -271,12 +271,12 @@ export const LangGraphVisualizer: React.FC = () => {
                                     <path
                                         d={d}
                                         fill="none"
-                                        stroke={isActive ? '#C6A756' : 'rgba(255,255,255,0.07)'}
+                                        stroke={isActive ? '#7C3AED' : 'rgba(30,41,59,0.1)'}
                                         strokeWidth={isActive ? 2 : 1.5}
                                         markerEnd={isActive ? 'url(#arrow-active)' : 'url(#arrow)'}
                                         style={{
                                             transition: 'stroke 0.4s ease, stroke-width 0.4s ease',
-                                            filter: isActive ? 'drop-shadow(0 0 4px rgba(198,167,86,0.5))' : 'none'
+                                            filter: isActive ? 'drop-shadow(0 0 4px rgba(124,58,237,0.5))' : 'none'
                                         }}
                                         strokeDasharray={isActive ? 'none' : '5 4'}
                                     />
@@ -284,7 +284,7 @@ export const LangGraphVisualizer: React.FC = () => {
                                     <text
                                         x={(fromX + toX) / 2 + (edge.from === 'classifier' && edge.to === 'legal' ? -36 : edge.from === 'classifier' && edge.to === 'civic' ? 36 : 8)}
                                         y={(fromY + toY) / 2}
-                                        fill={isActive ? '#C6A756' : 'rgba(255,255,255,0.2)'}
+                                        fill={isActive ? '#7C3AED' : 'rgba(30,41,59,0.4)'}
                                         fontSize="9"
                                         fontFamily="monospace"
                                         textAnchor="middle"
@@ -325,7 +325,7 @@ export const LangGraphVisualizer: React.FC = () => {
                                     <circle
                                         r={NODE_R + 4}
                                         fill="none"
-                                        stroke={wasVisited || isActive ? n.color : 'rgba(255,255,255,0.05)'}
+                                        stroke={wasVisited || isActive ? n.color : 'rgba(30,41,59,0.1)'}
                                         strokeWidth={isActive ? 2 : 1}
                                         opacity={isActive ? 1 : 0.5}
                                         style={{ transition: 'stroke 0.4s ease, opacity 0.4s ease' }}
@@ -338,24 +338,24 @@ export const LangGraphVisualizer: React.FC = () => {
                                     {/* Main circle */}
                                     <circle
                                         r={NODE_R}
-                                        fill={isActive || wasVisited ? `${n.color}25` : 'rgba(28,37,65,0.9)'}
-                                        stroke={isActive ? n.color : wasVisited ? `${n.color}80` : 'rgba(255,255,255,0.1)'}
+                                        fill={isActive || wasVisited ? `${n.color}15` : '#FFFFFF'}
+                                        stroke={isActive ? n.color : wasVisited ? `${n.color}80` : 'rgba(30,41,59,0.15)'}
                                         strokeWidth={isActive ? 2.5 : 1.5}
                                         style={{ transition: 'all 0.4s ease', filter: isActive ? `drop-shadow(0 0 10px ${n.glow})` : 'none' }}
                                     />
 
                                     {/* Icon - rendered as text emoji since SVG doesn't support lucide directly */}
-                                    <text textAnchor="middle" dominantBaseline="central" y={-8} fontSize="16" fill={isActive || wasVisited ? n.color : 'rgba(255,255,255,0.3)'}>
+                                    <text textAnchor="middle" dominantBaseline="central" y={-8} fontSize="16" fill={isActive || wasVisited ? n.color : '#64748B'}>
                                         {n.id === 'input' ? '⌨' : n.id === 'filter' ? '🔍' : n.id === 'classifier' ? '⚡' : n.id === 'legal' ? '⚖' : n.id === 'civic' ? '🏛' : n.id === 'risk' ? '⚠' : n.id === 'ethics' ? '🛡' : n.id === 'confidence' ? '📊' : '✅'}
                                     </text>
 
                                     {/* Node label */}
-                                    <text textAnchor="middle" y={10} fontSize="9" fontWeight="bold" fill={isActive || wasVisited ? n.color : 'rgba(255,255,255,0.5)'} fontFamily="sans-serif" style={{ transition: 'fill 0.4s ease' }}>
+                                    <text textAnchor="middle" y={10} fontSize="9" fontWeight="bold" fill={isActive || wasVisited ? n.color : '#334155'} fontFamily="sans-serif" style={{ transition: 'fill 0.4s ease' }}>
                                         {n.label}
                                     </text>
 
                                     {/* Sublabel */}
-                                    <text textAnchor="middle" y={22} fontSize="7.5" fill="rgba(255,255,255,0.25)" fontFamily="monospace">
+                                    <text textAnchor="middle" y={22} fontSize="7.5" fill="rgba(30,41,59,0.4)" fontFamily="monospace">
                                         {n.sublabel}
                                     </text>
                                 </g>
@@ -365,87 +365,97 @@ export const LangGraphVisualizer: React.FC = () => {
                 </div>
 
                 {/* ── Right Panel ── */}
-                <div className="w-full lg:w-[380px] shrink-0 border-l border-white/5 flex flex-col bg-gov-navy-light overflow-hidden">
+                <div className="w-full lg:w-[380px] shrink-0 border-l border-border-grey flex flex-col bg-surface-white overflow-hidden shadow-sm">
 
                     {/* Node Details */}
-                    <div className="p-5 border-b border-white/5 shrink-0">
-                        <p className="text-[9px] text-gov-text-muted uppercase tracking-widest mb-3">
+                    <div className="p-5 border-b border-border-grey shrink-0 bg-primary-bg/30">
+                        <p className="text-[9px] text-text-muted uppercase tracking-widest mb-3">
                             {hoveredNode ? 'Node Details' : activeNode ? 'Active Node' : 'Click any node to inspect'}
                         </p>
                         {displayNode ? (
                             <div
                                 key={displayNode.id}
-                                className="p-4 rounded-xl border"
-                                style={{ borderColor: `${displayNode.color}40`, background: `${displayNode.color}08` }}
+                                className="p-4 rounded-xl border bg-surface-white shadow-sm transition-all duration-300"
+                                style={{ borderColor: `${displayNode.color}40`, borderLeftWidth: '4px', borderLeftColor: displayNode.color }}
                             >
                                 <div className="flex items-center gap-3 mb-3">
-                                    <div className="w-8 h-8 rounded-lg flex items-center justify-center text-base" style={{ background: `${displayNode.color}20` }}>
+                                    <div className="w-8 h-8 rounded-lg flex items-center justify-center text-base shadow-inner ring-1 ring-black/5" style={{ background: `${displayNode.color}15` }}>
                                         {displayNode.id === 'input' ? '⌨' : displayNode.id === 'filter' ? '🔍' : displayNode.id === 'classifier' ? '⚡' : displayNode.id === 'legal' ? '⚖' : displayNode.id === 'civic' ? '🏛' : displayNode.id === 'risk' ? '⚠' : displayNode.id === 'ethics' ? '🛡' : displayNode.id === 'confidence' ? '📊' : '✅'}
                                     </div>
                                     <div>
-                                        <div className="text-sm font-bold" style={{ color: displayNode.color }}>{displayNode.label}</div>
-                                        <div className="text-[9px] font-mono text-gov-text-muted">{displayNode.sublabel}</div>
+                                        <div className="text-sm font-bold text-text-slate">{displayNode.label}</div>
+                                        <div className="text-[9px] font-mono text-text-muted">{displayNode.sublabel}</div>
                                     </div>
                                 </div>
-                                <p className="text-xs text-gov-text-muted leading-relaxed">{displayNode.description}</p>
+                                <p className="text-xs text-slate-600 leading-relaxed font-medium">{displayNode.description}</p>
                             </div>
                         ) : (
-                            <div className="p-4 rounded-xl border border-white/5 text-gov-text-muted text-xs italic">
+                            <div className="p-4 rounded-xl border border-border-grey text-text-muted text-xs italic bg-surface-white">
                                 Run the demo or hover a node to see details.
                             </div>
                         )}
                     </div>
 
                     {/* Live Execution Log */}
-                    <div className="flex-1 flex flex-col min-h-0 p-4">
-                        <p className="text-[9px] text-gov-text-muted uppercase tracking-widest mb-3 shrink-0">Live Execution Log</p>
-                        <div className="flex-1 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
+                    <div className="flex-1 flex flex-col min-h-0 p-5 bg-surface-white relative">
+                        <p className="text-[9px] text-text-muted uppercase tracking-widest mb-4 shrink-0 font-bold">Live Execution Log</p>
+                        <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar relative z-10">
+                            {/* Connecting Line */}
+                            <div className="absolute left-[8px] top-6 bottom-4 w-px bg-gradient-to-b from-border-grey to-transparent -z-10"></div>
+
                             {logs.length === 0 && (
-                                <div className="text-xs text-gov-text-muted italic opacity-50 text-center mt-8">Press "Run Demo" to execute the pipeline</div>
+                                <div className="text-xs text-text-muted italic opacity-50 text-center mt-10">Press "Run Demo" to execute the pipeline</div>
                             )}
                             {logs.map((log, i) => {
                                 const node = getNode(log.nodeId);
                                 return (
                                     <div
                                         key={i}
-                                        className="flex flex-col gap-1 p-3 rounded-lg border"
+                                        className="relative pl-[24px] flex flex-col gap-1 p-3.5 rounded-xl border bg-primary-bg/40 shadow-sm"
                                         style={{
-                                            borderColor: `${node.color}25`,
-                                            background: `${node.color}08`,
+                                            borderColor: `${node.color}30`,
                                             animation: 'fadeIn 0.3s ease forwards'
                                         }}
                                     >
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: node.color }}>{node.label}</span>
-                                            <span className="text-[9px] font-mono text-gov-text-muted">{log.ms}ms</span>
+                                        {/* Dot on connecting line */}
+                                        <div className="absolute left-[-20px] top-4 w-[11px] h-[11px] flex items-center justify-center bg-surface-white">
+                                            <div className="w-2h h-2.5 rounded-full ring-2 ring-surface-white" style={{ background: node.color }} />
                                         </div>
-                                        <span className="text-[11px] text-gov-text font-mono leading-relaxed">{log.text}</span>
+
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-1.5">
+                                                <div className="w-1.5 h-1.5 rounded-full opacity-70" style={{ background: node.color }} />
+                                                <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: node.color }}>{node.label}</span>
+                                            </div>
+                                            <span className="text-[9px] font-mono text-slate-400 font-medium">{log.ms}ms</span>
+                                        </div>
+                                        <span className="text-[11px] text-slate-700 font-mono leading-relaxed pl-1">{log.text}</span>
                                     </div>
                                 );
                             })}
                             {running && step < PIPELINE_STEPS.length - 1 && (
-                                <div className="flex items-center gap-2 p-3 text-gov-gold text-[10px] font-mono animate-pulse">
+                                <div className="flex items-center gap-2 p-3 text-accent-lavender text-[10px] font-mono animate-pulse">
                                     <span>▶</span> Processing next node...
                                 </div>
                             )}
                             {!running && step === PIPELINE_STEPS.length - 1 && (
-                                <div className="mt-2 p-3 rounded-lg border border-green-500/20 bg-green-500/5 text-xs text-green-400 font-bold">
-                                    ✅ Pipeline complete — {logs.reduce((s, l) => s + l.ms, 0)}ms total
+                                <div className="mt-3 p-3 rounded-lg border border-status-online/30 bg-status-online/10 text-xs text-status-online font-bold shadow-sm flex items-center gap-2">
+                                    <span>✅</span> Pipeline complete — {logs.reduce((s, l) => s + l.ms, 0)}ms total
                                 </div>
                             )}
                         </div>
                     </div>
 
                     {/* Stats Bar */}
-                    <div className="p-4 border-t border-white/5 grid grid-cols-3 gap-3 shrink-0">
+                    <div className="p-5 border-t border-border-grey grid grid-cols-3 gap-3 shrink-0 bg-primary-bg/30">
                         {[
                             { label: 'Agents', val: '7' },
                             { label: 'Total Latency', val: step === PIPELINE_STEPS.length - 1 ? `${logs.reduce((s, l) => s + l.ms, 0)}ms` : '—' },
                             { label: 'Confidence', val: step >= 7 ? '87%' : '—' },
                         ].map(stat => (
-                            <div key={stat.label} className="text-center p-2 rounded-lg bg-gov-navy border border-white/5">
-                                <div className="text-xs font-bold text-gov-text">{stat.val}</div>
-                                <div className="text-[9px] text-gov-text-muted uppercase tracking-widest mt-0.5">{stat.label}</div>
+                            <div key={stat.label} className="text-center p-2.5 rounded-xl bg-surface-white border border-border-grey shadow-sm">
+                                <div className="text-xs font-bold text-text-slate">{stat.val}</div>
+                                <div className="text-[9px] text-text-muted uppercase tracking-widest mt-1 font-medium">{stat.label}</div>
                             </div>
                         ))}
                     </div>

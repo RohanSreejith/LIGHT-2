@@ -66,9 +66,12 @@ class GroqClient:
                     retry_delay *= 2
                     continue
                 
+                if isinstance(e, Exception):
+                    raise
                 print(f"Groq API Error ({target_model}): {e}")
-                return None
-        return None
+                raise Exception(f"Groq API Error: {e}")
+                
+        raise Exception(f"Failed to get completion from Groq after {max_retries} attempts.")
 
 if __name__ == "__main__":
     client = GroqClient()

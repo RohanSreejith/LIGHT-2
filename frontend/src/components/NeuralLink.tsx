@@ -60,8 +60,8 @@ const LogContent: React.FC<{ agent: string; msg: string }> = ({ agent, msg }) =>
                             <div className="flex items-center gap-2">
                                 <span className="text-red-500 font-semibold">⚠️ Severity:</span>
                                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${parsed.severity.toLowerCase().includes('high') ? 'bg-red-100 text-red-600'
-                                        : parsed.severity.toLowerCase().includes('med') ? 'bg-amber-100 text-amber-600'
-                                            : 'bg-green-100 text-green-600'
+                                    : parsed.severity.toLowerCase().includes('med') ? 'bg-amber-100 text-amber-600'
+                                        : 'bg-green-100 text-green-600'
                                     }`}>{parsed.severity}</span>
                             </div>
                         )}
@@ -110,8 +110,8 @@ const LogContent: React.FC<{ agent: string; msg: string }> = ({ agent, msg }) =>
 
             // Fallback JSON display (other agents)
             return (
-                <div className="text-[10px] font-mono text-slate-500 bg-slate-50 rounded p-2 border border-slate-100 leading-snug break-all">
-                    {JSON.stringify(parsed)}
+                <div className="text-[10px] font-mono text-slate-500 bg-slate-50 rounded p-2 border border-slate-100 leading-relaxed whitespace-pre-wrap break-words w-full overflow-hidden">
+                    {JSON.stringify(parsed, null, 2)}
                 </div>
             );
         }
@@ -128,7 +128,7 @@ export const NeuralLink: React.FC<NeuralLinkProps> = ({ logs }) => {
     }, [logs]);
 
     return (
-        <div className="h-full flex flex-col text-text-slate bg-primary-bg overflow-hidden relative">
+        <div className="h-full flex flex-col text-text-slate bg-primary-bg overflow-hidden relative border border-border-grey shadow-sm rounded-xl">
             {/* Header */}
             <div className="px-4 py-3 border-b border-border-grey bg-surface-white flex items-center gap-3 shrink-0 z-10 shadow-sm">
                 <div className="w-7 h-7 rounded-lg bg-accent-lavender/10 flex items-center justify-center text-[13px] text-accent-lavender font-mono font-bold shadow-sm">
@@ -163,7 +163,7 @@ export const NeuralLink: React.FC<NeuralLinkProps> = ({ logs }) => {
                             <div className={`absolute left-[7px] top-1.5 w-3 h-3 rounded-full border-2 border-primary-bg ${colors.dot} z-10 shadow-sm`} />
 
                             {/* Node Card */}
-                            <div className={`bg-surface-white rounded-xl p-3 border shadow-sm ${colors.border}`}>
+                            <div className={`bg-surface-white rounded-xl p-3 border shadow-sm w-full overflow-hidden ${colors.border}`}>
                                 {/* Header */}
                                 <div className="flex items-center justify-between mb-2 pb-2 border-b border-border-grey/50">
                                     <span className={`text-[10px] font-bold uppercase tracking-widest ${colors.label}`}>

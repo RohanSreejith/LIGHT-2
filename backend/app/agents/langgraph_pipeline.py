@@ -428,6 +428,9 @@ class CivicAgentPipeline:
                     system_prompt="You are a precise JSON extraction assistant. Return only valid JSON.",
                     json_mode=True
                 )
+                
+                parsed = parse_json_safely(raw)
+                
                 if isinstance(parsed, dict):
                     import json
                     logger.info(f"Form Agent extracted fields: {json.dumps(parsed)}")
@@ -451,8 +454,12 @@ class CivicAgentPipeline:
                 state["status"] = "ERROR"
                 state["structured_output"] = {
                     "status": "ERROR", 
-                    "reason": "I encountered a temporary service limit. Please wait a moment and try again."
+                    "reason": "I encountered a temporary service limit with the intelligence provider. Please wait a moment and try submitting your details again."
                 }
+                state["agent_logs"].append({
+                    "agent": "System",
+                    "msg": f"Extraction limit reached: {str(e)}"
+                })
                 return state
 
         # Update persistent state
